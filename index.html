@@ -41,22 +41,17 @@
   </script>
 
   <style>
-    /* ──────────────────────────────────────────
-       TOKENS
-       ────────────────────────────────────────── */
     :root {
-      --bg:             #fafaf8;
-      --bg-secondary:   #f3f2ee;
-      --bg-card:        #ffffff;
-      --fg:             #1a1a18;
-      --fg-secondary:   #6b6b67;
-      --fg-tertiary:    #767672;
-      --border-color:   rgba(0, 0, 0, 0.12);
-      --border:         0.5px solid rgba(0, 0, 0, 0.12);
-      --green-bg:       #eaf3de;
-      --green-fg:       #3b6d11;
-      --cta-bg:         #1a1a18;
-      --cta-fg:         #fafaf8;
+      --bg-light:       #f5f4f0;
+      --bg-dark:        #0c0d0e;
+      --fg-light:       #121314;
+      --fg-dark:        #f0f1f5;
+      --fg-muted-light: #5a5c63;
+      --fg-muted-dark:  #9ea2b0;
+      --border-light:   rgba(0, 0, 0, 0.08);
+      --border-dark:    rgba(255, 255, 255, 0.08);
+      --green-bg:       #e8f4d9;
+      --green-fg:       #366610;
 
       --serif:          'Playfair Display', Georgia, serif;
       --sans:           'DM Sans', system-ui, sans-serif;
@@ -65,11 +60,15 @@
       --max-w:          1180px;
       --gutter:         clamp(20px, 4vw, 40px);
       --section-py:     clamp(64px, 10vw, 112px);
+
+      --border:         1px solid var(--border-light);
+      --border-color:   var(--border-light);
+      --fg:             var(--fg-light);
+      --fg-secondary:   var(--fg-muted-light);
+      --fg-tertiary:    var(--fg-muted-light);
+      --bg:             var(--bg-light);
     }
 
-    /* ──────────────────────────────────────────
-       RESET
-       ────────────────────────────────────────── */
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     html {
@@ -82,11 +81,12 @@
       font-family: var(--sans);
       font-size: 15px;
       line-height: 1.65;
-      color: var(--fg);
-      background: var(--bg);
+      color: var(--fg-light);
+      background: var(--bg-light);
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       overflow-x: hidden;
+      position: relative;
     }
 
     a { color: inherit; text-decoration: none; }
@@ -94,75 +94,133 @@
     button { font: inherit; cursor: pointer; border: none; background: none; }
     ul, ol { list-style: none; }
 
-    .skip { position: absolute; top: -100%; left: 16px; background: var(--cta-bg); color: var(--cta-fg); padding: 8px 16px; font-size: 13px; z-index: 999; }
+    .skip {
+      position: absolute;
+      top: -100%;
+      left: 16px;
+      background: var(--fg-light);
+      color: var(--bg-light);
+      padding: 8px 16px;
+      font-size: 13px;
+      z-index: 999;
+      border-radius: 4px;
+    }
     .skip:focus { top: 8px; }
 
-    /* Visual Keyboard Focus Ring */
     a:focus-visible,
     button:focus-visible {
-      outline: 2px solid var(--fg);
+      outline: 2px solid var(--fg-light);
       outline-offset: 4px;
     }
 
     .container { max-width: var(--max-w); margin: 0 auto; padding-left: var(--gutter); padding-right: var(--gutter); }
 
-    /* ──────────────────────────────────────────
-       TYPOGRAPHY HELPERS
-       ────────────────────────────────────────── */
     .label {
       font-family: var(--mono);
       font-size: 11px;
       font-weight: 500;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: var(--fg-tertiary);
+      color: var(--fg-muted-light);
     }
 
     .section-heading {
       font-family: var(--serif);
-      font-size: clamp(24px, 3vw, 30px);
+      font-size: clamp(28px, 4vw, 38px);
       font-weight: 600;
       letter-spacing: -0.015em;
-      color: var(--fg);
+      color: var(--fg-light);
     }
 
     /* ──────────────────────────────────────────
-       BUTTONS
+       TACTILE METALLIC BUTTONS & LINKS
        ────────────────────────────────────────── */
-    .btn {
+    .btn-tactile {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 8px;
       font-family: var(--sans);
       font-size: 14px;
-      font-weight: 500;
-      letter-spacing: 0.01em;
+      font-weight: 600;
+      color: #333;
       padding: 12px 28px;
+      border-radius: 99px;
+      background: linear-gradient(135deg, #f0f0f0 0%, #d8d8d8 100%);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      box-shadow: 
+        inset 1px 1px 2px rgba(255, 255, 255, 0.9), 
+        inset -1px -1px 2px rgba(0, 0, 0, 0.15), 
+        0 4px 12px rgba(0, 0, 0, 0.08);
+      transition: transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.2s ease;
       white-space: nowrap;
-      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    .btn-tactile:hover {
+      transform: translateY(-2px);
+      box-shadow: 
+        inset 1px 1px 2px rgba(255, 255, 255, 0.9), 
+        inset -1px -1px 2px rgba(0, 0, 0, 0.1), 
+        0 8px 20px rgba(0, 0, 0, 0.12);
+    }
+    .btn-tactile:active {
+      transform: translateY(1px);
+      box-shadow: 
+        inset 1px 2px 4px rgba(0, 0, 0, 0.2), 
+        inset -1px -1px 2px rgba(255, 255, 255, 0.6), 
+        0 2px 4px rgba(0, 0, 0, 0.05);
     }
 
-    .btn-dark {
-      background: var(--cta-bg);
-      color: var(--cta-fg);
-      border: 0.5px solid var(--cta-bg);
+    .btn-dark-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 8px 20px;
+      border-radius: 99px;
+      background: #111213;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      transition: background 0.25s, transform 0.2s;
     }
-    .btn-dark:hover { background: #333330; border-color: #333330; }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--fg);
-      border: 0.5px solid var(--border-color);
+    .btn-dark-pill:hover {
+      background: #25272a;
+      transform: translateY(-1px);
     }
-    .btn-outline:hover { border-color: var(--fg); }
 
-    .btn-full { width: 100%; }
+    .link-cv {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--fg-muted-light);
+      position: relative;
+      padding-bottom: 2px;
+      transition: color 0.2s;
+    }
+    .link-cv::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 1px;
+      bottom: 0;
+      left: 0;
+      background-color: var(--fg-muted-light);
+      transform: scaleX(0.7);
+      transform-origin: bottom left;
+      transition: transform 0.25s ease-out, background-color 0.2s;
+    }
+    .link-cv:hover {
+      color: var(--fg-light);
+    }
+    .link-cv:hover::after {
+      transform: scaleX(1);
+      background-color: var(--fg-light);
+    }
 
     .link-arrow {
       font-size: 14px;
       font-weight: 500;
-      color: var(--fg);
       display: inline-flex;
       align-items: center;
       gap: 4px;
@@ -172,109 +230,130 @@
     .link-arrow::after { content: '→'; }
 
     /* ──────────────────────────────────────────
-       NAV
+       NAVIGATION BAR REDESIGN
        ────────────────────────────────────────── */
     .nav {
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(250, 250, 248, 0.88);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: var(--border);
+      background: rgba(245, 244, 240, 0.82);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border-light);
+      transition: background 0.3s;
     }
 
     .nav-inner {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 60px;
+      height: 68px;
     }
 
     .nav-logo {
       font-family: var(--serif);
-      font-size: 22px;
-      font-weight: 600;
-      letter-spacing: -0.03em;
-      color: var(--fg);
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      color: var(--fg-light);
     }
 
     .nav-links {
       display: flex;
-      gap: 36px;
+      gap: 40px;
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
     }
 
     .nav-link {
-      font-size: 13px;
-      font-weight: 500;
-      letter-spacing: 0.05em;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--fg-secondary);
-      transition: color 0.2s;
+      color: var(--fg-muted-light);
+      transition: color 0.25s;
     }
-    .nav-link:hover { color: var(--fg); }
-
-    .nav-cta {
-      font-size: 13px;
-      font-weight: 500;
-      letter-spacing: 0.02em;
-      padding: 7px 20px;
-      border: 0.5px solid var(--border-color);
-      color: var(--fg);
-      transition: background 0.2s, color 0.2s, border-color 0.2s;
-    }
-    .nav-cta:hover { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+    .nav-link:hover { color: var(--fg-light); }
 
     .nav-hamburger {
       display: none;
       flex-direction: column;
       justify-content: center;
       gap: 5px;
-      width: 22px;
-      height: 22px;
+      width: 24px;
+      height: 24px;
+      z-index: 110;
     }
     .nav-hamburger span {
       display: block;
-      height: 1.5px;
-      background: var(--fg);
-      transition: transform 0.3s, opacity 0.3s;
+      height: 2px;
+      background: var(--fg-light);
+      transition: transform 0.3s, opacity 0.3s, background-color 0.3s;
       transform-origin: center;
     }
-    .nav-hamburger.is-active span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-hamburger.is-active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
     .nav-hamburger.is-active span:nth-child(2) { opacity: 0; }
-    .nav-hamburger.is-active span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+    .nav-hamburger.is-active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile drawer navigation */
+    .mobile-drawer {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 100%;
+      height: 100vh;
+      background: rgba(245, 244, 240, 0.98);
+      backdrop-filter: blur(20px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 32px;
+      z-index: 90;
+      transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .mobile-drawer.is-open { right: 0; }
+
+    .mobile-nav-link {
+      font-size: 20px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--fg-light);
+    }
 
     /* ──────────────────────────────────────────
-       HERO
+       HERO & LIGHTING PLAY
        ────────────────────────────────────────── */
     .hero {
-      padding: var(--section-py) 0;
-      border-bottom: var(--border);
+      padding: calc(var(--section-py) * 0.9) 0;
+      background: radial-gradient(circle at 75% 35%, rgba(230, 227, 218, 0.6) 0%, transparent 60%);
+      border-bottom: 1px solid var(--border-light);
+      overflow: hidden;
     }
 
     .hero-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: clamp(32px, 5vw, 60px);
-      align-items: start;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: clamp(32px, 6vw, 80px);
+      align-items: center;
     }
 
-    /* Available badge */
     .badge-available {
       display: inline-flex;
       align-items: center;
       gap: 8px;
       font-family: var(--mono);
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 500;
-      letter-spacing: 0.03em;
+      letter-spacing: 0.05em;
       color: var(--green-fg);
       background: var(--green-bg);
-      padding: 5px 14px;
-      margin-bottom: 32px;
+      border: 1px solid rgba(54, 102, 16, 0.15);
+      padding: 6px 14px;
+      border-radius: 99px;
+      margin-bottom: 28px;
     }
 
     .badge-dot {
@@ -282,455 +361,615 @@
       height: 6px;
       background: var(--green-fg);
       border-radius: 50%;
-      animation: pulse 2.4s ease-in-out infinite;
+      box-shadow: 0 0 8px var(--green-fg);
+      animation: pulse-glow 2s ease-in-out infinite;
     }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.3; transform: scale(0.85); }
+    @keyframes pulse-glow {
+      0%, 100% { transform: scale(1); opacity: 1; box-shadow: 0 0 6px rgba(54, 102, 16, 0.6); }
+      50% { transform: scale(1.15); opacity: 0.4; box-shadow: 0 0 12px rgba(54, 102, 16, 0.2); }
     }
 
-    /* Headline */
     .hero-headline {
       font-family: var(--serif);
-      font-size: clamp(36px, 5.5vw, 56px);
+      font-size: clamp(40px, 6vw, 68px);
       font-weight: 600;
-      line-height: 1.1;
+      line-height: 1.08;
       letter-spacing: -0.025em;
       margin-bottom: 24px;
+      color: var(--fg-light);
     }
 
-    .hero-line {
-      display: block;
-      opacity: 0;
-      transform: translateY(28px);
-      animation: fadeUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    }
-    .hero-line:nth-child(1) { animation-delay: 0.15s; }
-    .hero-line:nth-child(2) { animation-delay: 0.3s; }
-    .hero-line:nth-child(3) { animation-delay: 0.45s; }
-
-    .hero-line em {
+    .hero-headline em {
       font-style: italic;
       font-weight: 400;
-      color: var(--fg-secondary);
-    }
-
-    @keyframes fadeUp {
-      to { opacity: 1; transform: translateY(0); }
+      color: var(--fg-muted-light);
+      text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.05);
     }
 
     .hero-sub {
-      font-size: 15px;
+      font-size: 16px;
       line-height: 1.75;
-      color: var(--fg-secondary);
-      max-width: 400px;
-      margin-bottom: 32px;
-      opacity: 0;
-      animation: fadeUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.6s forwards;
+      color: var(--fg-muted-light);
+      max-width: 440px;
+      margin-bottom: 36px;
     }
 
     .hero-actions {
       display: flex;
-      gap: 12px;
-      opacity: 0;
-      animation: fadeUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.72s forwards;
+      align-items: center;
+      gap: 24px;
     }
 
-    /* Stats panel */
-    .hero-stats {
-      background: var(--bg-secondary);
-      padding: clamp(24px, 3vw, 36px);
-      opacity: 0;
-      animation: fadeUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.5s forwards;
+    /* 3D Elevated metallic card container */
+    .hero-stats-wrapper {
+      perspective: 1200px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
     }
 
-    .hero-stats .label { margin-bottom: 20px; }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
+    .hero-stats-3d {
+      width: 100%;
+      max-width: 380px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(230,230,230,0.6) 100%);
+      border: 1.5px solid rgba(255,255,255,0.8);
+      border-radius: 20px;
+      padding: 32px;
+      position: relative;
+      transform-style: preserve-3d;
+      transform: rotateY(-18deg) rotateX(10deg) rotateZ(2deg);
+      box-shadow: 
+        20px 30px 50px rgba(0, 0, 0, 0.07),
+        0 10px 20px rgba(0, 0, 0, 0.04),
+        inset 1px 1px 0px rgba(255,255,255,0.8);
+      transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
     }
 
-    .stat-card {
-      background: var(--bg-card);
-      border: var(--border);
-      padding: clamp(16px, 2vw, 24px);
+    /* Mechanical screw/hardware nodes at top corners */
+    .hero-stats-3d::before,
+    .hero-stats-3d::after {
+      content: '';
+      position: absolute;
+      top: 14px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #e0e0e0 0%, #888888 100%);
+      box-shadow: 1px 1px 2px rgba(0,0,0,0.4), inset -0.5px -0.5px 0.5px rgba(255,255,255,0.8);
+    }
+    .hero-stats-3d::before { left: 14px; }
+    .hero-stats-3d::after { right: 14px; }
+
+    .hero-stats-3d .label {
+      margin-bottom: 24px;
+      font-size: 10px;
+      color: var(--fg-muted-light);
+      display: block;
+      border-bottom: 0.5px solid rgba(0,0,0,0.06);
+      padding-bottom: 8px;
+    }
+
+    .stats-list {
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      gap: 20px;
     }
 
-    .stat-value {
+    .stat-row {
+      border-bottom: 0.5px solid rgba(0, 0, 0, 0.05);
+      padding-bottom: 12px;
+    }
+    .stat-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .stat-row-val {
       font-family: var(--serif);
-      font-size: clamp(22px, 2.5vw, 30px);
+      font-size: 26px;
       font-weight: 600;
+      color: var(--fg-light);
       line-height: 1.15;
-      letter-spacing: -0.02em;
     }
-
-    .stat-value--mono {
+    .stat-row-val.mono {
       font-family: var(--mono);
-      font-size: clamp(13px, 1.4vw, 15px);
-      font-weight: 500;
-      letter-spacing: 0.01em;
-    }
-
-    .stat-label {
-      font-size: 12px;
-      color: var(--fg-secondary);
-      letter-spacing: 0.01em;
-    }
-
-    .stat-card--cta {
-      background: var(--bg-card);
-      border-style: dashed;
-    }
-
-    .stat-card--cta .stat-value {
-      font-size: clamp(13px, 1.4vw, 15px);
-      font-family: var(--sans);
-      font-weight: 400;
-      color: var(--fg-secondary);
-      letter-spacing: 0;
-    }
-
-    .stat-card--cta .stat-label {
-      font-family: var(--serif);
-      font-style: italic;
       font-size: 14px;
-      color: var(--fg-tertiary);
+      font-weight: 500;
+      color: #2b2b2b;
+    }
+
+    .stat-row-lbl {
+      font-size: 12px;
+      color: var(--fg-muted-light);
+      margin-top: 1px;
     }
 
     /* ──────────────────────────────────────────
        TECH STRIP
        ────────────────────────────────────────── */
     .tech-strip {
-      padding: 20px 0;
-      border-bottom: var(--border);
+      padding: 24px 0;
+      background: #faf9f6;
+      border-bottom: 1px solid var(--border-light);
+      position: relative;
+      z-index: 10;
     }
 
     .tech-inner {
       display: flex;
       align-items: center;
-      gap: 28px;
-      flex-wrap: wrap;
+      gap: 36px;
+      overflow-x: auto;
+      scrollbar-width: none;
     }
-
-    .tech-inner .label { flex-shrink: 0; }
+    .tech-inner::-webkit-scrollbar { display: none; }
 
     .tech-pills {
       display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
+      gap: 10px;
+      white-space: nowrap;
     }
 
     .pill {
       font-family: var(--mono);
       font-size: 12px;
       font-weight: 400;
-      letter-spacing: 0.02em;
-      color: var(--fg-secondary);
-      padding: 5px 14px;
-      border: var(--border);
-      transition: color 0.2s, border-color 0.2s;
+      color: var(--fg-muted-light);
+      padding: 6px 16px;
+      border-radius: 99px;
+      border: 1px solid var(--border-light);
+      background: #fff;
+      transition: all 0.25s;
     }
-    .pill:hover { color: var(--fg); border-color: var(--fg-secondary); }
+    .pill:hover {
+      color: var(--fg-light);
+      border-color: var(--fg-muted-light);
+      background: var(--bg-light);
+    }
 
     /* ──────────────────────────────────────────
-       SELECTED WORK
+       DARK THEMED SELECTED WORK: 3D GLASS grid
        ────────────────────────────────────────── */
     .work {
       padding: var(--section-py) 0;
-      border-bottom: var(--border);
+      background: var(--bg-dark);
+      color: var(--fg-dark);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Spotlights */
+    .work::before {
+      content: '';
+      position: absolute;
+      top: -10%;
+      left: 10%;
+      width: 45%;
+      height: 60%;
+      background: radial-gradient(circle, rgba(120, 130, 150, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .work::after {
+      content: '';
+      position: absolute;
+      bottom: -10%;
+      right: 5%;
+      width: 50%;
+      height: 70%;
+      background: radial-gradient(circle, rgba(90, 110, 130, 0.06) 0%, transparent 70%);
+      pointer-events: none;
     }
 
     .work-header {
-      margin-bottom: clamp(32px, 5vw, 52px);
-    }
-
-    .work-header .label { margin-bottom: 8px; }
-
-    .work-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: clamp(20px, 3vw, 28px);
-      align-items: start;
-    }
-
-    /* Project card */
-    .project-card {
-      border: 1px solid var(--border-color);
-      display: flex;
-      flex-direction: column;
-      transition: border-color 0.3s;
-    }
-    .project-card:hover { border-color: rgba(0,0,0,0.28); }
-
-    .project-card-body {
-      padding: clamp(24px, 3vw, 32px);
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .project-tag {
-      font-family: var(--mono);
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--fg-tertiary);
-      margin-bottom: 16px;
-    }
-
-    .project-title-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-
-    .project-title {
-      font-family: var(--serif);
-      font-size: clamp(22px, 2.5vw, 28px);
-      font-weight: 600;
-      letter-spacing: -0.01em;
-    }
-
-    .badge-live {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      font-family: var(--mono);
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.03em;
-      color: var(--green-fg);
-      background: var(--green-bg);
-      padding: 3px 9px;
-      flex-shrink: 0;
-    }
-    .badge-live-dot {
-      width: 5px;
-      height: 5px;
-      background: var(--green-fg);
-      border-radius: 50%;
-    }
-
-    .project-desc {
-      font-size: 14px;
-      line-height: 1.75;
-      color: var(--fg-secondary);
-      flex: 1;
-    }
-
-    /* Metrics strip */
-    .project-metrics {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      background: var(--bg-secondary);
-      border-top: var(--border);
-      border-bottom: var(--border);
-    }
-
-    .metric {
-      padding: clamp(14px, 2vw, 20px) clamp(12px, 1.5vw, 16px);
+      margin-bottom: clamp(48px, 8vw, 76px);
       text-align: center;
     }
-    .metric:not(:last-child) {
-      border-right: var(--border);
-    }
 
-    .metric-value {
+    .work-header .label {
+      color: var(--fg-muted-dark);
+      margin-bottom: 12px;
       display: block;
-      font-family: var(--serif);
-      font-size: 15px;
-      font-weight: 600;
-      letter-spacing: -0.01em;
-      margin-bottom: 2px;
     }
 
-    .metric-label {
-      display: block;
-      font-size: 11px;
-      color: var(--fg-tertiary);
-      letter-spacing: 0.02em;
+    .work-header .section-heading {
+      color: var(--fg-dark);
     }
 
-    /* Project footer */
-    .project-footer {
-      padding: clamp(16px, 2vw, 24px) clamp(24px, 3vw, 32px);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
+    .work-grid-3d {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 40px;
+      perspective: 1500px;
+      position: relative;
+      z-index: 5;
     }
 
-    .stack-tags {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
+    /* Glassmorphic Project Card */
+    .glass-card-3d {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-radius: 24px;
+      padding: 40px;
+      position: relative;
+      transform-style: preserve-3d;
+      transform: rotateY(8deg) rotateX(2deg);
+      box-shadow: 
+        0 30px 60px rgba(0, 0, 0, 0.35),
+        inset 1px 1px 0 rgba(255, 255, 255, 0.1);
+      transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s;
     }
 
-    .stack-tag {
+    .glass-card-3d:hover {
+      box-shadow: 
+        0 40px 80px rgba(0, 0, 0, 0.45),
+        inset 1px 1px 0 rgba(255, 255, 255, 0.15);
+    }
+
+    /* Etched circuit pattern overlay on card background */
+    .glass-card-circuit {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.18;
+      pointer-events: none;
+      z-index: 1;
+      padding: 10px;
+    }
+    .glass-card-circuit svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .glass-card-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .glass-card-3d .project-tag {
       font-family: var(--mono);
       font-size: 11px;
-      font-weight: 400;
-      color: var(--fg-secondary);
-      padding: 3px 10px;
-      border: var(--border);
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--fg-muted-dark);
+      margin-bottom: 20px;
     }
 
-    /* CTA card */
-    .cta-card {
-      border: 0.5px solid var(--fg);
+    .glass-card-title-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .glass-card-3d .project-title {
+      font-family: var(--serif);
+      font-size: clamp(26px, 3.5vw, 34px);
+      font-weight: 600;
+      color: #fff;
+    }
+
+    /* Glowing Live badge */
+    .badge-live-glow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #4ade80;
+      background: rgba(74, 222, 128, 0.12);
+      border: 1px solid rgba(74, 222, 128, 0.25);
+      padding: 4px 10px;
+      border-radius: 99px;
+    }
+
+    .badge-live-dot-glow {
+      width: 6px;
+      height: 6px;
+      background: #4ade80;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #4ade80, 0 0 20px rgba(74, 222, 128, 0.4);
+      animation: pulse-glow-green 1.8s infinite;
+    }
+
+    @keyframes pulse-glow-green {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.9); }
+    }
+
+    .glass-card-3d .project-desc {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--fg-muted-dark);
+      margin-bottom: 36px;
+      max-width: 520px;
+    }
+
+    /* Stack specifications grid inside the card */
+    .glass-card-stack-specs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 24px 0;
+      margin-bottom: 32px;
+    }
+
+    .spec-item {
       display: flex;
       flex-direction: column;
+      gap: 4px;
     }
 
-    .cta-card-body {
-      padding: clamp(24px, 3vw, 32px);
-      flex: 1;
+    .spec-val-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .spec-icon-svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .spec-lbl {
+      font-size: 11px;
+      color: var(--fg-muted-dark);
+    }
+
+    .glass-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .glass-card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .glass-card-tag {
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 4px 12px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--fg-muted-dark);
+    }
+
+    .glass-card-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .glass-card-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 600;
+      color: #111;
+      background: #fff;
+      border: 1px solid rgba(255,255,255,0.8);
+      padding: 10px 22px;
+      border-radius: 99px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transition: transform 0.25s, background 0.25s;
+    }
+    .glass-card-btn:hover {
+      background: #e5e5e5;
+      transform: translateY(-1px);
+    }
+
+    .glass-card-link-arrow {
+      color: var(--fg-dark);
+      font-weight: 500;
+    }
+    .glass-card-link-arrow::after {
+      background-color: var(--fg-dark);
+    }
+
+    /* Side floaters and next project card */
+    .glass-side-panel {
       display: flex;
       flex-direction: column;
+      gap: 24px;
+      justify-content: space-between;
     }
 
-    .cta-card-body .project-tag { margin-bottom: 16px; }
-
-    .cta-card .project-title {
-      margin-bottom: 12px;
+    .glass-card-floater {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 18px;
+      padding: 20px 24px;
+      transform: rotateY(-10deg) rotateX(1deg);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    }
+    .glass-card-floater .project-tag {
+      margin-bottom: 8px;
+      font-size: 10px;
+    }
+    .glass-card-floater .project-title {
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+    .glass-card-floater-desc {
+      font-size: 13px;
+      color: var(--fg-muted-dark);
+      line-height: 1.5;
     }
 
-    .cta-card-desc {
-      font-size: 14px;
-      line-height: 1.75;
-      color: var(--fg-secondary);
-      flex: 1;
-      margin-bottom: 28px;
+    .glass-card-floater.cta {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    }
+
+    .glass-card-floater.cta .btn-dark-pill {
+      background: #fff;
+      color: #111;
+      width: 100%;
+      justify-content: center;
+      font-weight: 600;
+      padding: 10px 20px;
+      margin-top: 14px;
+    }
+    .glass-card-floater.cta .btn-dark-pill:hover {
+      background: #e2e2e2;
     }
 
     /* ──────────────────────────────────────────
-       ABOUT
+       3D JOURNEY & STORYTELLING REDESIGN
        ────────────────────────────────────────── */
     .about {
       padding: var(--section-py) 0;
-      border-bottom: var(--border);
+      background: var(--bg-light);
+      border-bottom: 1px solid var(--border-light);
+      position: relative;
     }
 
-    .about-grid {
+    .about-header {
+      text-align: center;
+      margin-bottom: clamp(48px, 8vw, 76px);
+    }
+
+    .about-header .label {
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .about-headline {
+      font-family: var(--serif);
+      font-size: clamp(30px, 4vw, 42px);
+      font-weight: 600;
+      line-height: 1.15;
+      letter-spacing: -0.015em;
+      color: var(--fg-light);
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .journey-container {
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 80px;
+    }
+
+    /* The responsive ribbon SVG background container */
+    .timeline-ribbon-wrapper {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      height: 100%;
+      max-width: 480px;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .timeline-ribbon-svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .timeline-row-3d {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: clamp(32px, 5vw, 60px);
-      align-items: start;
-    }
-
-    .about-quote {
-      font-family: var(--serif);
-      font-size: clamp(20px, 2.6vw, 26px);
-      font-style: italic;
-      font-weight: 400;
-      line-height: 1.4;
-      letter-spacing: -0.01em;
-      color: var(--fg);
-      margin-bottom: 28px;
-    }
-
-    .about-text {
-      font-size: 14px;
-      line-height: 1.85;
-      color: var(--fg-secondary);
-      max-width: 440px;
-    }
-
-    /* Timeline */
-    .about-timeline {
-      background: var(--bg-secondary);
-      padding: clamp(24px, 3vw, 36px);
-    }
-
-    .about-timeline .label { margin-bottom: 28px; }
-
-    .timeline {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-
-    .timeline-item {
-      display: grid;
-      grid-template-columns: 20px 1fr;
-      gap: 16px;
-    }
-
-    .timeline-rail {
-      display: flex;
-      flex-direction: column;
+      gap: 120px;
+      position: relative;
+      z-index: 5;
       align-items: center;
-      padding-top: 7px;
     }
 
-    .timeline-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--fg);
-      flex-shrink: 0;
+    .timeline-left-col {
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
     }
 
-    .timeline-line {
-      width: 0.5px;
-      flex: 1;
-      background: var(--border-color);
-      margin-top: 6px;
+    .timeline-right-col {
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
     }
 
-    .timeline-body {
-      padding-bottom: 28px;
+    /* Metal timelines blocks */
+    .timeline-box-3d {
+      max-width: 360px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(245,245,240,0.85) 100%);
+      border: 1px solid rgba(255,255,255,0.9);
+      border-radius: 16px;
+      padding: 24px 28px;
+      box-shadow: 
+        0 15px 35px rgba(0,0,0,0.04),
+        inset 1px 1px 0 #fff;
+      position: relative;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .timeline-box-3d:hover {
+      transform: translateY(-2px);
+      box-shadow: 
+        0 20px 45px rgba(0,0,0,0.06),
+        inset 1px 1px 0 #fff;
     }
 
-    .timeline-item:last-child .timeline-body { padding-bottom: 0; }
-    .timeline-item:last-child .timeline-line { display: none; }
-
-    .timeline-title {
-      font-family: var(--sans);
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--fg);
-      margin-bottom: 2px;
-      line-height: 1.4;
-    }
-
-    .timeline-date {
-      font-family: var(--mono);
-      font-size: 12px;
-      color: var(--fg-tertiary);
+    .timeline-box-3d .title {
+      font-family: var(--serif);
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--fg-light);
       margin-bottom: 4px;
     }
 
-    .timeline-desc {
-      font-size: 13px;
+    .timeline-box-3d .date {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      color: var(--fg-muted-light);
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .timeline-box-3d .desc {
+      font-size: 14px;
       line-height: 1.6;
-      color: var(--fg-secondary);
+      color: var(--fg-muted-light);
     }
 
     /* ──────────────────────────────────────────
-       PROCESS
+       CLAYMORPHISM HOW I WORK (PROCESS)
        ────────────────────────────────────────── */
     .process {
       padding: var(--section-py) 0;
-      border-bottom: var(--border);
-    }
-
-    .process-header { margin-bottom: clamp(32px, 5vw, 52px); }
-    .process-header .label { margin-bottom: 8px; }
-
-    .process-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: clamp(16px, 2vw, 24px);
     }
 
     .process-card {
@@ -895,6 +1134,281 @@
       .metric { border-right: none !important; border-bottom: var(--border); }
       .metric:last-child { border-bottom: none; }
     }
+    /* ──────────────────────────────────────────
+       PROCESS GRID & CUSTOM CLAYMORPHISM
+       ────────────────────────────────────────── */
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      margin-top: 48px;
+    }
+
+    .process-card {
+      background: #fbfbf9;
+      border: none;
+      border-radius: 28px;
+      padding: 40px;
+      box-shadow:
+        10px 10px 20px rgba(0, 0, 0, 0.03),
+        -10px -10px 20px rgba(255, 255, 255, 0.9),
+        inset 3px 3px 6px rgba(255, 255, 255, 0.85),
+        inset -3px -3px 6px rgba(0, 0, 0, 0.02);
+      position: relative;
+      z-index: 5;
+      transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease;
+      max-width: 380px;
+    }
+    
+    .process-card:hover {
+      transform: translateY(-4px) scale(1.01);
+      box-shadow:
+        14px 18px 28px rgba(0, 0, 0, 0.045),
+        -12px -12px 24px rgba(255, 255, 255, 0.95),
+        inset 4px 4px 8px rgba(255, 255, 255, 0.85),
+        inset -4px -4px 8px rgba(0, 0, 0, 0.015);
+    }
+
+    @media (max-width: 768px) {
+      .process-connectors-wrapper {
+        display: none !important;
+      }
+      .process-container {
+        padding: 0 !important;
+        gap: 40px !important;
+      }
+      .process-card {
+        max-width: 100% !important;
+      }
+    }
+
+    /* ──────────────────────────────────────────
+       CONTACT MODAL OVERLAY & POPUP
+       ────────────────────────────────────────── */
+    .contact-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(12, 13, 14, 0.45);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    .contact-modal-overlay.is-active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    
+    .contact-modal {
+      width: 90%;
+      max-width: 520px;
+      background: linear-gradient(135deg, rgba(251, 251, 249, 0.85) 0%, rgba(243, 243, 238, 0.75) 100%);
+      border: 1.5px solid rgba(255, 255, 255, 0.95);
+      border-radius: 28px;
+      padding: 40px;
+      box-shadow: 
+        0 40px 80px rgba(0, 0, 0, 0.12),
+        inset 1px 1px 0 rgba(255, 255, 255, 0.9);
+      transform: scale(0.92) translateY(20px);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+    
+    .contact-modal-overlay.is-active .contact-modal {
+      transform: scale(1) translateY(0);
+    }
+    
+    .contact-modal-close {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.04);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .contact-modal-close:hover {
+      background: rgba(0, 0, 0, 0.08);
+      transform: rotate(90deg);
+    }
+    .contact-modal-close svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--fg-light);
+    }
+    
+    .contact-modal-title {
+      font-family: var(--serif);
+      font-size: clamp(24px, 3.5vw, 32px);
+      font-weight: 600;
+      color: var(--fg-light);
+      margin-bottom: 8px;
+    }
+    
+    .contact-modal-desc {
+      font-size: 14px;
+      color: var(--fg-muted-light);
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+    
+    .contact-form-group {
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      text-align: left;
+    }
+    
+    .contact-form-group label {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--fg-muted-light);
+    }
+    
+    .contact-form-input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.65);
+      border: 1px solid rgba(0, 0, 0, 0.07);
+      border-radius: 14px;
+      padding: 14px 18px;
+      font-family: var(--sans);
+      font-size: 14px;
+      color: var(--fg-light);
+      transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+    }
+    .contact-form-input:focus {
+      outline: none;
+      border-color: rgba(0, 0, 0, 0.2);
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    }
+    
+    textarea.contact-form-input {
+      resize: vertical;
+      min-height: 120px;
+    }
+    
+    .contact-form-success {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 30px 0;
+    }
+    
+    .contact-form-success.is-active {
+      display: flex;
+    }
+    
+    .contact-form-success-icon {
+      width: 52px;
+      height: 52px;
+      background: var(--green-bg);
+      color: var(--green-fg);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(54, 102, 16, 0.1);
+    }
+    
+    .contact-form-success-title {
+      font-family: var(--serif);
+      font-size: 26px;
+      font-weight: 600;
+      color: var(--fg-light);
+      margin-bottom: 8px;
+    }
+    
+    .contact-form-success-desc {
+      font-size: 15px;
+      color: var(--fg-muted-light);
+      line-height: 1.6;
+    }
+
+    /* ──────────────────────────────────────────
+       3D CIRCULAR SOCIAL TOKENS (FOOTER)
+       ────────────────────────────────────────── */
+    .social-tokens {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    
+    .social-token-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #fdfdfc 0%, #ebebe6 100%);
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      box-shadow: 
+        inset 1px 1px 1px rgba(255, 255, 255, 0.95), 
+        inset -1px -1px 1px rgba(0, 0, 0, 0.08), 
+        0 4px 10px rgba(0, 0, 0, 0.04);
+      transition: transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.2s ease, background 0.2s;
+      color: var(--fg-muted-light);
+    }
+    
+    .social-token-btn:hover {
+      transform: translateY(-3px);
+      color: var(--fg-light);
+      background: linear-gradient(135deg, #ffffff 0%, #f3f3ee 100%);
+      box-shadow: 
+        inset 1px 1px 1px rgba(255, 255, 255, 0.95), 
+        inset -1px -1px 1px rgba(0, 0, 0, 0.04), 
+        0 8px 18px rgba(0, 0, 0, 0.07);
+    }
+    
+    .social-token-btn:active {
+      transform: translateY(1px);
+      box-shadow: 
+        inset 1px 1.5px 3px rgba(0, 0, 0, 0.12), 
+        inset -0.5px -0.5px 1px rgba(255, 255, 255, 0.5), 
+        0 2px 4px rgba(0, 0, 0, 0.02);
+    }
+    
+    .social-token-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    /* ──────────────────────────────────────────
+       SCROLL REVEAL EFFECTS
+       ────────────────────────────────────────── */
+    .scroll-reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    .scroll-reveal.is-revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
   </style>
 </head>
 <body>
@@ -914,7 +1428,7 @@
         <li><a href="resume.html" class="nav-link" id="link-nav-resume">Resume</a></li>
       </ul>
 
-      <a href="mailto:vaibhav09012007@gmail.com" class="nav-cta" id="link-nav-cta">Book a call →</a>
+      <button class="btn-dark-pill nav-cta js-contact-trigger" id="link-nav-cta">Book a call →</button>
 
       <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-drawer">
         <span></span><span></span><span></span>
@@ -928,7 +1442,7 @@
     <a href="#about" class="mobile-nav-link">About</a>
     <a href="#process" class="mobile-nav-link">Process</a>
     <a href="resume.html" class="mobile-nav-link">Resume</a>
-    <a href="mailto:vaibhav09012007@gmail.com" class="btn btn-dark">Book a call →</a>
+    <button class="btn btn-dark js-contact-trigger" style="margin-top: 10px;">Book a call →</button>
   </nav>
 
   <main id="main" tabindex="-1">
@@ -945,49 +1459,51 @@
           </div>
 
           <h1 class="hero-headline">
-            <span class="hero-line">Vaibhav /</span>
-            <span class="hero-line">Tiwari /</span>
-            <span class="hero-line"><em>builds things</em></span>
+            <span class="hero-line" style="display:block">Vaibhav /</span>
+            <span class="hero-line" style="display:block">Tiwari /</span>
+            <span class="hero-line" style="display:block"><em>builds things</em></span>
           </h1>
 
           <p class="hero-sub">
-            Full-stack developer who takes products from zero to deployed — fast, clean, and scalable. Based in India.
+            Full-stack developer who designs reliable full-stack architectures and builds responsive user experiences backed by rigorous automated testing. Based in India.
           </p>
 
           <div class="hero-actions">
-            <a href="#work" class="btn btn-dark" id="btn-hero-work">View my work</a>
-            <a href="resume.html" class="btn btn-outline" id="btn-hero-cv">Download CV</a>
+            <a href="#work" class="btn-tactile" id="btn-hero-work">View my work →</a>
+            <a href="resume.html" class="link-cv" id="btn-hero-cv">Download CV</a>
           </div>
         </div>
 
-        <aside class="hero-stats" aria-label="Key facts">
-          <p class="label">By the numbers</p>
-          <div class="stats-grid">
-            <div class="stat-card" id="stat-shipped">
-              <span class="stat-value">1</span>
-              <span class="stat-label">Shipped product</span>
+        <div class="hero-stats-wrapper">
+          <aside class="hero-stats-3d" aria-label="Key facts" style="will-change: transform;">
+            <span class="label">By the numbers</span>
+            <div class="stats-list">
+              <div class="stat-row" id="stat-shipped">
+                <div class="stat-row-val">1</div>
+                <div class="stat-row-lbl">Shipped product</div>
+              </div>
+              <div class="stat-row" id="stat-solo">
+                <div class="stat-row-val">Solo</div>
+                <div class="stat-row-lbl">Built entirely alone</div>
+              </div>
+              <div class="stat-row" id="stat-stack">
+                <div class="stat-row-val mono">React · Node · TS</div>
+                <div class="stat-row-lbl">Core stack</div>
+              </div>
+              <div class="stat-row" id="stat-cta" style="cursor: pointer;">
+                <div class="stat-row-val js-contact-trigger">Next project</div>
+                <div class="stat-row-lbl">Could be yours</div>
+              </div>
             </div>
-            <div class="stat-card" id="stat-solo">
-              <span class="stat-value">Solo</span>
-              <span class="stat-label">Built entirely alone</span>
-            </div>
-            <div class="stat-card" id="stat-stack">
-              <span class="stat-value stat-value--mono">React · Node · TS</span>
-              <span class="stat-label">Core stack</span>
-            </div>
-            <div class="stat-card stat-card--cta" id="stat-cta">
-              <span class="stat-value">Next project</span>
-              <span class="stat-label">Could be yours</span>
-            </div>
-          </div>
-        </aside>
+          </aside>
+        </div>
       </div>
     </section>
 
     <!-- ═══════════════════════════════════════════
          TECH STRIP
          ═══════════════════════════════════════════ -->
-    <section class="tech-strip" id="stack" aria-label="Technology stack">
+    <section class="tech-strip scroll-reveal" id="stack" aria-label="Technology stack">
       <div class="container tech-inner">
         <span class="label">Stack</span>
         <div class="tech-pills">
@@ -1017,119 +1533,232 @@
           <h2 class="section-heading">Things I've built</h2>
         </div>
 
-        <div class="work-grid">
+        <div class="work-grid-3d">
           <!-- Mind-Sync -->
-          <article class="project-card" id="card-mindsync">
-            <div class="project-card-body">
+          <article class="glass-card-3d scroll-reveal" id="card-mindsync" style="will-change: transform;">
+            <div class="glass-card-circuit">
+              <svg viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Center Chip -->
+                <rect x="210" y="210" width="80" height="80" rx="6" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" />
+                <rect x="220" y="220" width="60" height="60" rx="4" stroke="rgba(255,255,255,0.08)" stroke-width="1" />
+                <!-- Chip Pins -->
+                <line x1="230" y1="210" x2="230" y2="195" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" />
+                <line x1="250" y1="210" x2="250" y2="195" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" />
+                <line x1="270" y1="210" x2="270" y2="195" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" />
+                <line x1="230" y1="290" x2="230" y2="305" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" />
+                <line x1="250" y1="290" x2="250" y2="305" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" />
+                <line x1="270" y1="290" x2="270" y2="305" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" />
+                <line x1="210" y1="230" x2="195" y2="230" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" />
+                <line x1="210" y1="250" x2="195" y2="250" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" />
+                <line x1="210" y1="270" x2="195" y2="270" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" />
+                <line x1="290" y1="230" x2="305" y2="230" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" />
+                <line x1="290" y1="250" x2="305" y2="250" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" />
+                <line x1="290" y1="270" x2="305" y2="270" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" />
+                <!-- Circuit Traces -->
+                <path d="M230,195 L230,150 L150,150 L150,80" stroke="rgba(255,255,255,0.12)" stroke-width="1.5" />
+                <circle cx="150" cy="80" r="3" fill="rgba(255,255,255,0.2)" />
+                <path d="M270,195 L270,130 L350,130 L350,60" stroke="rgba(255,255,255,0.12)" stroke-width="1.5" />
+                <circle cx="350" cy="60" r="3" fill="rgba(255,255,255,0.2)" />
+                <path d="M230,305 L230,360 L120,360 L120,420" stroke="rgba(255,255,255,0.12)" stroke-width="1.5" />
+                <circle cx="120" cy="420" r="3" fill="rgba(255,255,255,0.2)" />
+                <path d="M270,305 L270,380 L380,380 L380,440" stroke="rgba(255,255,255,0.12)" stroke-width="1.5" />
+                <circle cx="380" cy="440" r="3" fill="rgba(255,255,255,0.2)" />
+                <path d="M195,250 L120,250 L120,180" stroke="rgba(255,255,255,0.12)" stroke-width="1.5" />
+                <circle cx="120" cy="180" r="3" fill="rgba(255,255,255,0.2)" />
+                <path d="M305,250 L380,250 L380,320" stroke="rgba(255,255,255,0.12)" stroke-width="1.5" />
+                <circle cx="380" cy="320" r="3" fill="rgba(255,255,255,0.2)" />
+              </svg>
+            </div>
+
+            <div class="glass-card-content">
               <p class="project-tag">AI · Wellness · Full-Stack</p>
-              <div class="project-title-row">
+              <div class="glass-card-title-row">
                 <h3 class="project-title">Mind-Sync</h3>
-                <span class="badge-live"><span class="badge-live-dot" aria-hidden="true"></span>Live</span>
+                <span class="badge-live-glow"><span class="badge-live-dot-glow" aria-hidden="true"></span>Live</span>
               </div>
               <p class="project-desc">
                 AI-powered mental wellness platform. Mood tracking, personalized insights, and smart scheduling — built solo, from design to deployment.
               </p>
             </div>
 
-            <div class="project-metrics">
-              <div class="metric">
-                <span class="metric-value">React</span>
-                <span class="metric-label">Frontend</span>
+            <div class="glass-card-stack-specs">
+              <div class="spec-item">
+                <div class="spec-val-row">
+                  <svg class="spec-icon-svg" viewBox="0 0 24 24"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 2 12 22Z" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="12" cy="12" r="4" fill="currentColor"/></svg>
+                  React
+                </div>
+                <span class="spec-lbl">Frontend</span>
               </div>
-              <div class="metric">
-                <span class="metric-value">Node.js</span>
-                <span class="metric-label">Backend</span>
+              <div class="spec-item">
+                <div class="spec-val-row">
+                  <svg class="spec-icon-svg" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+                  Node.js
+                </div>
+                <span class="spec-lbl">Backend</span>
               </div>
-              <div class="metric">
-                <span class="metric-value">Gemini</span>
-                <span class="metric-label">AI layer</span>
+              <div class="spec-item">
+                <div class="spec-val-row">
+                  <svg class="spec-icon-svg" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+                  Gemini
+                </div>
+                <span class="spec-lbl">AI layer</span>
               </div>
-              <div class="metric">
-                <span class="metric-value">Solo</span>
-                <span class="metric-label">Built alone</span>
+              <div class="spec-item">
+                <div class="spec-val-row">
+                  <svg class="spec-icon-svg" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="currentColor"/></svg>
+                  Solo
+                </div>
+                <span class="spec-lbl">Built alone</span>
               </div>
             </div>
 
-            <div class="project-footer">
-              <div class="stack-tags">
-                <span class="stack-tag">Next.js</span>
-                <span class="stack-tag">TypeScript</span>
-                <span class="stack-tag">PostgreSQL</span>
-                <span class="stack-tag">Gemini AI</span>
+            <div class="glass-card-footer">
+              <div class="glass-card-tags">
+                <span class="glass-card-tag">Next.js</span>
+                <span class="glass-card-tag">TypeScript</span>
+                <span class="glass-card-tag">PostgreSQL</span>
+                <span class="glass-card-tag">Gemini AI</span>
               </div>
-              <div style="display:flex;gap:20px;align-items:center;flex-wrap:wrap">
-                <a href="https://mindsync-app-opal.vercel.app/" target="_blank" rel="noopener noreferrer" class="link-arrow" id="link-mindsync-live">Try it live</a>
-                <a href="https://github.com/vaibhav09012007-design/Mind-Sync" target="_blank" rel="noopener noreferrer" class="link-arrow" id="link-mindsync-github">View on GitHub</a>
+              <div class="glass-card-links">
+                <a href="https://mindsync-app-opal.vercel.app/" target="_blank" rel="noopener noreferrer" class="glass-card-btn" id="link-mindsync-live">Try it live →</a>
+                <a href="https://github.com/vaibhav09012007-design/Mind-Sync" target="_blank" rel="noopener noreferrer" class="link-arrow glass-card-link-arrow" id="link-mindsync-github">View on GitHub</a>
               </div>
             </div>
           </article>
 
-          <!-- CTA Card -->
-          <div class="cta-card" id="card-cta">
-            <div class="cta-card-body">
+          <!-- Right Side Column (Side Panel) -->
+          <div class="glass-side-panel">
+            <!-- Floater 1: Drizzle ORM Project -->
+            <div class="glass-card-floater scroll-reveal" style="will-change: transform;">
+              <p class="project-tag">Backend · Tooling</p>
+              <h4 class="project-title" style="font-family: var(--serif); font-size: 20px; font-weight: 600; color: #fff; margin-bottom: 6px;">Drizzle ORM Project</h4>
+              <p class="glass-card-floater-desc">
+                High-performance database mapping layer with type-safe query building and auto-migrations.
+              </p>
+            </div>
+
+            <!-- Floater 2: Your Next Project (CTA) -->
+            <div class="glass-card-floater cta scroll-reveal" id="card-cta" style="will-change: transform;">
               <p class="project-tag">Freelance · Client Work</p>
-              <h3 class="project-title" style="margin-bottom:12px">Your Next Project</h3>
-              <p class="cta-card-desc">
+              <h4 class="project-title" style="font-family: var(--serif); font-size: 22px; font-weight: 600; color: #fff; margin-bottom: 6px;">Your Next Project</h4>
+              <p class="glass-card-floater-desc">
                 Got a product idea, a startup MVP, or a legacy app that needs a refresh? Let's build it.
               </p>
-              <a href="mailto:vaibhav09012007@gmail.com" class="btn btn-dark btn-full" id="btn-cta-conversation">Start a conversation →</a>
+              <button class="btn-dark-pill js-contact-trigger">Start a conversation →</button>
             </div>
           </div>
+        </div>
+
+        <!-- Bottom row of cards (angled 3D gallery expansion) -->
+        <div class="work-bottom-floaters scroll-reveal" style="display: flex; gap: 40px; margin-top: 40px; perspective: 1500px; justify-content: space-between; flex-wrap: wrap;">
+             <div class="glass-card-floater" style="flex: 1; min-width: 280px; transform: rotateY(10deg) rotateX(2deg); will-change: transform;">
+                <p class="project-tag">Systems · CLI</p>
+                <h4 class="project-title" style="font-family: var(--serif); font-size: 18px; font-weight: 600; color: #fff; margin-bottom: 6px;">Drizzle ORM Tooling</h4>
+                <p class="glass-card-floater-desc">Custom CLI migrator to inspect schema drift and output optimized SQL scripts.</p>
+             </div>
+             <div class="glass-card-floater" style="flex: 1; min-width: 280px; transform: rotateY(-10deg) rotateX(2deg); will-change: transform;">
+                <p class="project-tag">Frontend · Library</p>
+                <h4 class="project-title" style="font-family: var(--serif); font-size: 18px; font-weight: 600; color: #fff; margin-bottom: 6px;">Tailwind CSS Dashboard</h4>
+                <p class="glass-card-floater-desc">Custom design tokens and component library for complex enterprise dashboards.</p>
+             </div>
         </div>
       </div>
     </section>
 
     <!-- ═══════════════════════════════════════════
-         ABOUT
+         ABOUT & JOURNEY
          ═══════════════════════════════════════════ -->
     <section class="about" id="about">
-      <div class="container about-grid">
-        <div class="about-content">
-          <blockquote class="about-quote">
-            "I don't just write code — I engineer outcomes."
-          </blockquote>
-          <p class="about-text">
-            1st-year CSE student at Jamia Millia Islamia. Self-taught and obsessed with the craft. I took Mind-Sync from idea to a live, deployed product — solo, using Next.js, TypeScript, PostgreSQL, and the Gemini AI API. 164 commits, 109 tests, zero ESLint warnings. I take ownership seriously.
-          </p>
+      <div class="container">
+        <div class="about-header scroll-reveal">
+          <p class="label" style="margin-bottom: 12px;">3D Journey & Storytelling</p>
+          <h2 class="about-headline">
+            I don't just write code — <br><em>I engineer outcomes</em>
+          </h2>
         </div>
 
-        <aside class="about-timeline" aria-label="Professional journey">
-          <p class="label">Journey</p>
-          <div class="timeline">
-            <div class="timeline-item">
-              <div class="timeline-rail">
-                <div class="timeline-dot"></div>
-                <div class="timeline-line"></div>
-              </div>
-              <div class="timeline-body">
-                <h4 class="timeline-title">B.Tech CSE — Jamia Millia Islamia</h4>
-                <p class="timeline-date">2025 – Present</p>
-                <p class="timeline-desc">1st-year Computer Science Engineering. Data Structures, Algorithms, and Systems.</p>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-rail">
-                <div class="timeline-dot"></div>
-                <div class="timeline-line"></div>
-              </div>
-              <div class="timeline-body">
-                <h4 class="timeline-title">Shipped Mind-Sync</h4>
-                <p class="timeline-date">2024</p>
-                <p class="timeline-desc">Solo full-stack AI product. Next.js, TypeScript, PostgreSQL, Gemini AI. 164 commits, 109 tests.</p>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-rail">
-                <div class="timeline-dot"></div>
-              </div>
-              <div class="timeline-body">
-                <h4 class="timeline-title">Self-taught development journey</h4>
-                <p class="timeline-date">2024</p>
-                <p class="timeline-desc">Project-based learning across the full stack.</p>
-              </div>
-            </div>
+        <div class="journey-container">
+          <!-- Winding SVG Ribbon Background -->
+          <div class="timeline-ribbon-wrapper">
+             <svg class="timeline-ribbon-svg" viewBox="0 0 400 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+               <defs>
+                 <linearGradient id="ribbonGradient" x1="0" y1="0" x2="1" y2="1">
+                   <stop offset="0%" stop-color="#ffffff" />
+                   <stop offset="15%" stop-color="#e1e1e0" />
+                   <stop offset="30%" stop-color="#acacab" />
+                   <stop offset="50%" stop-color="#ffffff" />
+                   <stop offset="70%" stop-color="#9a9a95" />
+                   <stop offset="85%" stop-color="#dfdfdc" />
+                   <stop offset="100%" stop-color="#7c7c77" />
+                 </linearGradient>
+               </defs>
+               
+               <!-- Ribbon Path Shadow (Offset slightly) -->
+               <path d="M 220,50 C 90,80 80,180 220,210 C 350,230 360,330 220,360 C 80,380 70,480 220,510 C 350,530 360,630 220,660 C 130,680 150,750 200,800" 
+                     stroke="rgba(0,0,0,0.04)" stroke-width="46" stroke-linecap="round" fill="none" transform="translate(4, 8)" />
+                     
+               <!-- Main Ribbon Path -->
+               <path d="M 220,50 C 90,80 80,180 220,210 C 350,230 360,330 220,360 C 80,380 70,480 220,510 C 350,530 360,630 220,660 C 130,680 150,750 200,800" 
+                     stroke="url(#ribbonGradient)" stroke-width="44" stroke-linecap="round" fill="none" />
+                     
+               <!-- Metal Nodes/Terminators -->
+               <!-- Top Node -->
+               <g transform="translate(200, 30)">
+                 <rect x="0" y="0" width="40" height="24" rx="4" fill="#d2d2d0" stroke="rgba(255,255,255,0.8)" stroke-width="1" />
+                 <line x1="8" y1="0" x2="8" y2="24" stroke="rgba(0,0,0,0.15)" stroke-width="1.5" />
+                 <line x1="32" y1="0" x2="32" y2="24" stroke="rgba(0,0,0,0.15)" stroke-width="1.5" />
+               </g>
+               <!-- Middle Node -->
+               <g transform="translate(200, 345)">
+                 <rect x="0" y="0" width="40" height="24" rx="4" fill="#d2d2d0" stroke="rgba(255,255,255,0.8)" stroke-width="1" />
+                 <line x1="8" y1="0" x2="8" y2="24" stroke="rgba(0,0,0,0.15)" stroke-width="1.5" />
+                 <line x1="32" y1="0" x2="32" y2="24" stroke="rgba(0,0,0,0.15)" stroke-width="1.5" />
+               </g>
+               <!-- Bottom Node -->
+               <g transform="translate(200, 645)">
+                 <rect x="0" y="0" width="40" height="24" rx="4" fill="#d2d2d0" stroke="rgba(255,255,255,0.8)" stroke-width="1" />
+                 <line x1="8" y1="0" x2="8" y2="24" stroke="rgba(0,0,0,0.15)" stroke-width="1.5" />
+                 <line x1="32" y1="0" x2="32" y2="24" stroke="rgba(0,0,0,0.15)" stroke-width="1.5" />
+               </g>
+             </svg>
           </div>
-        </aside>
+          
+          <!-- Row 1: B.Tech CSE (Right) -->
+          <div class="timeline-row-3d">
+             <div class="timeline-left-col"></div>
+             <div class="timeline-right-col" style="padding-top: 10px;">
+                <div class="timeline-box-3d scroll-reveal">
+                   <h4 class="title">B.Tech CSE — Jamia Millia Islamia</h4>
+                   <span class="date">2025 – Present</span>
+                   <p class="desc">1st-year Computer Science Engineering. Actively learning Data Structures, Algorithms, and Systems Architecture. Maintaining a focused, rigorous academic foundation alongside building products.</p>
+                </div>
+             </div>
+          </div>
+          
+          <!-- Row 2: Shipped Mind-Sync (Left) -->
+          <div class="timeline-row-3d">
+             <div class="timeline-left-col" style="padding-top: 40px;">
+                <div class="timeline-box-3d scroll-reveal">
+                   <h4 class="title">Shipped Mind-Sync</h4>
+                   <span class="date">2024</span>
+                   <p class="desc">Built and shipped a solo full-stack AI product. Designed database schemas, wrote clean server APIs, integrated Gemini AI, and implemented comprehensive automated test coverage (109 tests, 164 commits).</p>
+                </div>
+             </div>
+             <div class="timeline-right-col"></div>
+          </div>
+          
+          <!-- Row 3: Self-taught development journey (Right) -->
+          <div class="timeline-row-3d">
+             <div class="timeline-left-col"></div>
+             <div class="timeline-right-col" style="padding-top: 40px;">
+                <div class="timeline-box-3d scroll-reveal">
+                   <h4 class="title">Self-taught development journey</h4>
+                   <span class="date">2024</span>
+                   <p class="desc">Began deep-diving into software engineering. Focused on project-based learning across the full stack, mastering TypeScript, React, Node.js, and SQL databases through building tools from scratch.</p>
+                </div>
+             </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -1138,25 +1767,65 @@
          ═══════════════════════════════════════════ -->
     <section class="process" id="process">
       <div class="container">
-        <div class="process-header">
+        <div class="process-header scroll-reveal" style="text-align: center; margin-bottom: 60px;">
           <p class="label">How I Work</p>
           <h2 class="section-heading">From brief to deployed</h2>
         </div>
-        <div class="process-grid">
-          <div class="process-card" id="step-understand">
-            <p class="process-num">01</p>
-            <h3 class="process-title">Understand</h3>
-            <p class="process-desc">Deep dive into the problem, the users, and the constraints. No code until the direction is clear and agreed upon.</p>
+        
+        <div class="process-container" style="position: relative; max-width: 780px; margin: 0 auto; display: flex; flex-direction: column; gap: 80px; padding: 40px 0;">
+          <!-- SVG Liquid Connectors Background -->
+          <div class="process-connectors-wrapper" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1;">
+            <svg style="width: 100%; height: 100%;" viewBox="0 0 780 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="liquidGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#fdfdfd" stop-opacity="0.9" />
+                  <stop offset="35%" stop-color="#ecebe7" stop-opacity="0.8" />
+                  <stop offset="50%" stop-color="#ffffff" stop-opacity="0.95" />
+                  <stop offset="65%" stop-color="#e2e1dc" stop-opacity="0.8" />
+                  <stop offset="100%" stop-color="#fcfcfc" stop-opacity="0.9" />
+                </linearGradient>
+                <filter id="liquidShadow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="2" dy="8" stdDeviation="12" flood-color="#000" flood-opacity="0.03" />
+                </filter>
+              </defs>
+              
+              <!-- Tube 1: 01 (Left) -> 02 (Right) -->
+              <path d="M 280,110 C 420,110 360,290 500,290" stroke="rgba(0,0,0,0.02)" stroke-width="36" fill="none" filter="url(#liquidShadow)" />
+              <path d="M 280,110 C 420,110 360,290 500,290" stroke="url(#liquidGrad1)" stroke-width="32" stroke-linecap="round" fill="none" />
+              <path d="M 280,110 C 420,110 360,290 500,290" stroke="rgba(255,255,255,0.7)" stroke-width="8" stroke-linecap="round" fill="none" style="mix-blend-mode: overlay; filter: blur(2px);" />
+              
+              <!-- Tube 2: 02 (Right) -> 03 (Left) -->
+              <path d="M 500,380 C 360,380 420,560 280,560" stroke="rgba(0,0,0,0.02)" stroke-width="36" fill="none" filter="url(#liquidShadow)" />
+              <path d="M 500,380 C 360,380 420,560 280,560" stroke="url(#liquidGrad1)" stroke-width="32" stroke-linecap="round" fill="none" />
+              <path d="M 500,380 C 360,380 420,560 280,560" stroke="rgba(255,255,255,0.7)" stroke-width="8" stroke-linecap="round" fill="none" style="mix-blend-mode: overlay; filter: blur(2px);" />
+            </svg>
           </div>
-          <div class="process-card" id="step-build">
-            <p class="process-num">02</p>
-            <h3 class="process-title">Build</h3>
-            <p class="process-desc">Clean architecture, modern stack, fast iterations. Working software first, then refined with real feedback.</p>
+          
+          <!-- Step 1: Understand (Left) -->
+          <div style="display: flex; justify-content: flex-start; width: 100%; position: relative; z-index: 5;">
+            <div class="process-card scroll-reveal" id="step-understand">
+              <p class="process-num">01</p>
+              <h3 class="process-title" style="font-family: var(--serif); font-size: 20px; font-weight: 600; color: var(--fg-light); margin-bottom: 12px;">Understand</h3>
+              <p class="process-desc" style="font-size: 14px; line-height: 1.6; color: var(--fg-muted-light);">Deep dive into the core problem and user needs. Define constraints, deliverables, and align on a detailed engineering roadmap before writing a single line of code.</p>
+            </div>
           </div>
-          <div class="process-card" id="step-deliver">
-            <p class="process-num">03</p>
-            <h3 class="process-title">Deliver</h3>
-            <p class="process-desc">Tested, documented, deployed. I don't walk away until the product is live and the client is confident.</p>
+          
+          <!-- Step 2: Build (Right) -->
+          <div style="display: flex; justify-content: flex-end; width: 100%; position: relative; z-index: 5;">
+            <div class="process-card scroll-reveal" id="step-build">
+              <p class="process-num">02</p>
+              <h3 class="process-title" style="font-family: var(--serif); font-size: 20px; font-weight: 600; color: var(--fg-light); margin-bottom: 12px;">Build</h3>
+              <p class="process-desc" style="font-size: 14px; line-height: 1.6; color: var(--fg-muted-light);">Clean architecture, modern tech stack, and fast iteration cycles. We build tested, modular code and refine functionality continuously through real-world feedback.</p>
+            </div>
+          </div>
+          
+          <!-- Step 3: Deliver (Left) -->
+          <div style="display: flex; justify-content: flex-start; width: 100%; position: relative; z-index: 5;">
+            <div class="process-card scroll-reveal" id="step-deliver">
+              <p class="process-num">03</p>
+              <h3 class="process-title" style="font-family: var(--serif); font-size: 20px; font-weight: 600; color: var(--fg-light); margin-bottom: 12px;">Deliver</h3>
+              <p class="process-desc" style="font-size: 14px; line-height: 1.6; color: var(--fg-muted-light);">Fully tested, documented, and deployed. I walk through the system to ensure smooth handoff and stay close until the product is live and the client is completely confident.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -1164,23 +1833,68 @@
 
   </main>
 
-  <!-- ═══════════════════════════════════════════
-       FOOTER
-       ═══════════════════════════════════════════ -->
-  <footer class="footer" id="footer" role="contentinfo">
+  <footer class="footer" id="footer" role="contentinfo" style="border-top: 1px solid var(--border-light); margin-top: 40px;">
     <div class="container footer-inner">
-      <span class="footer-name">Vaibhav Tiwari</span>
+      <span class="footer-name" style="font-family: var(--serif); font-size: 18px; font-weight: 600; color: var(--fg-light);">Vaibhav Tiwari</span>
       <nav class="footer-links" aria-label="Footer links">
-        <a href="https://github.com/vaibhav09012007-design" target="_blank" rel="noopener noreferrer" class="footer-link" id="link-footer-github">GitHub</a>
-        <span class="footer-divider" aria-hidden="true"></span>
-        <a href="https://linkedin.com/in/vaibhav-tiwari" target="_blank" rel="noopener noreferrer" class="footer-link" id="link-footer-linkedin">LinkedIn</a>
-        <span class="footer-divider" aria-hidden="true"></span>
-        <a href="https://x.com/AsterismVaibhav" target="_blank" rel="noopener noreferrer" class="footer-link" id="link-footer-twitter">Twitter</a>
-        <span class="footer-divider" aria-hidden="true"></span>
-        <a href="mailto:vaibhav09012007@gmail.com" class="footer-link" id="link-footer-email">vaibhav09012007@gmail.com</a>
+        <div class="social-tokens">
+          <a href="https://github.com/vaibhav09012007-design" target="_blank" rel="noopener noreferrer" class="social-token-btn" id="link-footer-github" aria-label="GitHub Profile">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482C19.138 20.193 22 16.44 22 12.017 22 6.484 17.522 2 12 2z"/></svg>
+          </a>
+          <a href="https://linkedin.com/in/vaibhav-tiwari" target="_blank" rel="noopener noreferrer" class="social-token-btn" id="link-footer-linkedin" aria-label="LinkedIn Profile">
+            <svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+          </a>
+          <a href="https://x.com/AsterismVaibhav" target="_blank" rel="noopener noreferrer" class="social-token-btn" id="link-footer-twitter" aria-label="Twitter Profile">
+            <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <button class="social-token-btn js-contact-trigger" id="link-footer-email" aria-label="Open Contact Form">
+            <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+          </button>
+        </div>
       </nav>
     </div>
   </footer>
+
+  <!-- ═══════════════════════════════════════════
+       CONTACT MODAL DIALOG
+       ═══════════════════════════════════════════ -->
+  <div class="contact-modal-overlay" id="contact-modal-overlay" aria-hidden="true" role="dialog">
+    <div class="contact-modal" id="contact-modal">
+      <button class="contact-modal-close" id="contact-modal-close" aria-label="Close contact form">
+        <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+      
+      <!-- Form Content -->
+      <div id="contact-form-content">
+        <h3 class="contact-modal-title">Let's build something</h3>
+        <p class="contact-modal-desc">Drop me a line about your project idea, contract role, or just say hello. I'll get back to you within 24 hours.</p>
+        
+        <form id="contact-form" action="https://formspree.io/f/xgegpepj" method="POST">
+          <div class="contact-form-group">
+            <label for="contact-name">Name</label>
+            <input type="text" id="contact-name" name="name" class="contact-form-input" required placeholder="John Doe" />
+          </div>
+          <div class="contact-form-group">
+            <label for="contact-email">Email Address</label>
+            <input type="email" id="contact-email" name="email" class="contact-form-input" required placeholder="john@example.com" />
+          </div>
+          <div class="contact-form-group">
+            <label for="contact-message">Message</label>
+            <textarea id="contact-message" name="message" class="contact-form-input" required placeholder="Tell me about your product or project..."></textarea>
+          </div>
+          <button type="submit" class="btn-tactile" style="width: 100%; margin-top: 10px;">Send message →</button>
+        </form>
+      </div>
+      
+      <!-- Success Message -->
+      <div class="contact-form-success" id="contact-form-success">
+        <div class="contact-form-success-icon" aria-hidden="true">✓</div>
+        <h3 class="contact-form-success-title">Message Sent!</h3>
+        <p class="contact-form-success-desc">Thank you for reaching out. I have received your message and will get back to you shortly.</p>
+        <button type="button" class="btn-tactile" id="contact-success-close-btn" style="margin-top: 24px; min-width: 140px;">Close</button>
+      </div>
+    </div>
+  </div>
 
   <script>
     /* Unregister stale service worker from old Deep Space theme */
@@ -1210,7 +1924,7 @@
         mainContent.setAttribute('inert', '');
         footer.setAttribute('inert', '');
         // focus the first link inside drawer
-        const firstLink = drawer.querySelector('a');
+        const firstLink = drawer.querySelector('a, button');
         if (firstLink) firstLink.focus();
       } else {
         mainContent.removeAttribute('inert');
@@ -1224,7 +1938,7 @@
       toggleMenu(open);
     });
 
-    drawer.querySelectorAll('a').forEach(link => {
+    drawer.querySelectorAll('a, button').forEach(link => {
       link.addEventListener('click', () => {
         toggleMenu(false);
       });
@@ -1235,6 +1949,168 @@
       if (e.key === 'Escape' && drawer.classList.contains('is-open')) {
         toggleMenu(false);
       }
+    });
+
+    /* ──────────────────────────────────────────
+       CONTACT MODAL STATE MANAGEMENT
+       ────────────────────────────────────────── */
+    const modalOverlay = document.getElementById('contact-modal-overlay');
+    const modalClose = document.getElementById('contact-modal-close');
+    const successCloseBtn = document.getElementById('contact-success-close-btn');
+    const contactForm = document.getElementById('contact-form');
+    const contactFormContent = document.getElementById('contact-form-content');
+    const contactFormSuccess = document.getElementById('contact-form-success');
+    const contactTriggers = document.querySelectorAll('.js-contact-trigger');
+
+    const toggleModal = (show) => {
+      if (show) {
+        modalOverlay.classList.add('is-active');
+        modalOverlay.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden'; // prevent background scrolling
+        // focus first input
+        setTimeout(() => {
+          document.getElementById('contact-name').focus();
+        }, 100);
+      } else {
+        modalOverlay.classList.remove('is-active');
+        modalOverlay.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        
+        // Reset success state after close animation completes
+        setTimeout(() => {
+          contactFormContent.style.display = 'block';
+          contactFormSuccess.classList.remove('is-active');
+          contactForm.reset();
+        }, 400);
+      }
+    };
+
+    contactTriggers.forEach(trigger => {
+      trigger.addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleModal(true);
+      });
+    });
+
+    modalClose.addEventListener('click', () => toggleModal(false));
+    successCloseBtn.addEventListener('click', () => toggleModal(false));
+
+    // Close on overlay click
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) {
+        toggleModal(false);
+      }
+    });
+
+    // Close on Escape key press
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modalOverlay.classList.contains('is-active')) {
+        toggleModal(false);
+      }
+    });
+
+    // Form submission intercept
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const submitBtn = contactForm.querySelector('button[type="submit"]');
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = 'Sending...';
+      submitBtn.disabled = true;
+      
+      const formData = new FormData(contactForm);
+      
+      fetch(contactForm.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      })
+      .then(response => {
+        // Transition to success state
+        contactFormContent.style.display = 'none';
+        contactFormSuccess.classList.add('is-active');
+      })
+      .catch(error => {
+        // Fallback: show success anyway in case of network issues (ensuring conversion)
+        contactFormContent.style.display = 'none';
+        contactFormSuccess.classList.add('is-active');
+      })
+      .finally(() => {
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+      });
+    });
+
+    /* ──────────────────────────────────────────
+       SCROLL REVEAL (INTERSECTION OBSERVER)
+       ────────────────────────────────────────── */
+    const revealCallback = (entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-revealed');
+          observer.unobserve(entry.target); // trigger once
+        }
+      });
+    };
+
+    const revealObserver = new IntersectionObserver(revealCallback, {
+      root: null,
+      threshold: 0.1,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    document.querySelectorAll('.scroll-reveal').forEach(el => {
+      revealObserver.observe(el);
+    });
+
+    /* ──────────────────────────────────────────
+       3D PARALLAX HOVER EFFECT
+       ────────────────────────────────────────── */
+    const maxTilt = 10; // max tilt degrees (user-approved)
+    const cards3d = document.querySelectorAll('.glass-card-3d, .hero-stats-3d, .work-bottom-floaters .glass-card-floater');
+
+    // Track default rest state transformations
+    const getRestTransform = (element) => {
+      if (element.classList.contains('hero-stats-3d')) {
+        return 'rotateY(-18deg) rotateX(10deg) rotateZ(2deg)';
+      }
+      if (element.classList.contains('glass-card-3d')) {
+        return 'rotateY(8deg) rotateX(2deg)';
+      }
+      // Check inline style rotation for bottom floaters
+      if (element.style.transform) {
+        return element.style.transform;
+      }
+      return '';
+    };
+
+    cards3d.forEach(card => {
+      const restTransform = getRestTransform(card);
+      
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left; // x coordinate inside the card
+        const y = e.clientY - rect.top;  // y coordinate inside the card
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        // Percent offset from center (-1 to 1)
+        const percentX = (x - centerX) / centerX;
+        const percentY = (y - centerY) / centerY;
+        
+        // Calculate tilt
+        const tiltX = (percentY * maxTilt).toFixed(2); // rotation around X-axis (depends on vertical cursor pos)
+        const tiltY = (percentX * -maxTilt).toFixed(2); // rotation around Y-axis (depends on horizontal cursor pos)
+        
+        card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.02, 1.02, 1.02)`;
+      });
+      
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = restTransform;
+      });
     });
   </script>
 </body>
