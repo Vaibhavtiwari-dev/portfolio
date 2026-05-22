@@ -1,10 +1,27 @@
 :root {
-  --text-primary: #111827;
-  --text-secondary: #374151;
-  --text-muted: #6b7280;
-  --accent: #0277bd;
-  --border: #e5e7eb;
-  --bg-light: #f9fafb;
+  --bg-light: #f5f4f0;
+  --bg-dark: #0c0d0e;
+  --fg-light: #121314;
+  --fg-dark: #f0f1f5;
+  --fg-muted-light: #5a5c63;
+  --fg-muted-dark: #9ea2b0;
+  --border-light: rgba(0, 0, 0, 0.08);
+  --border-dark: rgba(255, 255, 255, 0.08);
+  --green-bg: #e8f4d9;
+  --green-fg: #366610;
+
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'DM Sans', system-ui, sans-serif;
+  --mono: 'DM Mono', 'Courier New', monospace;
+
+  /* Theme mappings matching portfolio */
+  --text-primary: var(--fg-light);
+  --text-secondary: var(--fg-muted-light);
+  --text-muted: #8c8f9a;
+  --accent: var(--green-fg);
+  --border: var(--border-light);
+  --bg-page: #faf9f6; /* Warm paper color */
+  --bg-body: #efeee9; /* Tan background for contrast */
 }
 
 * {
@@ -21,42 +38,47 @@ button:focus-visible {
 }
 
 body {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: var(--sans);
   line-height: 1.6;
   color: var(--text-secondary);
-  background: #f0f2f5;
+  background: var(--bg-body);
   font-size: 14px;
   -webkit-font-smoothing: antialiased;
 }
 
 .page {
-  background: white;
+  background: var(--bg-page);
   width: 21cm;
   min-height: 29.7cm;
-  margin: 40px auto;
-  padding: 48px 56px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  margin: 50px auto;
+  padding: 56px 64px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  position: relative;
 }
 
 /* Header */
 header {
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 28px;
   padding-bottom: 24px;
-  border-bottom: 2px solid var(--text-primary);
+  border-bottom: 1.5px solid var(--text-primary);
 }
 
 header h1 {
-  font-size: 28px;
+  font-family: var(--serif);
+  font-size: 32px;
   font-weight: 700;
   color: var(--text-primary);
   letter-spacing: -0.5px;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
 .role {
-  font-size: 14px;
-  font-weight: 600;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
   color: var(--accent);
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -67,18 +89,26 @@ header h1 {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 8px 20px;
+  gap: 8px 16px;
+  font-family: var(--sans);
   font-size: 13px;
-  color: var(--text-muted);
+  color: var(--text-secondary);
 }
 
 .contact-row a {
-  color: var(--text-muted);
+  color: var(--text-secondary);
   text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all 0.2s ease;
 }
 
 .contact-row a:hover {
   color: var(--accent);
+  border-color: var(--accent);
+}
+
+.contact-row span {
+  color: var(--text-muted);
 }
 
 /* Sections */
@@ -86,15 +116,19 @@ section {
   margin-bottom: 24px;
 }
 
+section:last-of-type {
+  margin-bottom: 0;
+}
+
 h2 {
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: 600;
   color: var(--text-primary);
   margin-bottom: 12px;
   padding-bottom: 6px;
   border-bottom: 1px solid var(--border);
+  letter-spacing: 0.2px;
 }
 
 /* Summary */
@@ -108,14 +142,15 @@ h2 {
 .skills-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  gap: 20px;
 }
 
 .skill-group h3 {
-  font-size: 12px;
+  font-family: var(--sans);
+  font-size: 13px;
   font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 .skill-tags {
@@ -125,17 +160,25 @@ h2 {
 }
 
 .skill-tag {
+  font-family: var(--mono);
   font-size: 11px;
-  padding: 3px 8px;
-  background: var(--bg-light);
+  padding: 3px 10px;
+  background: #ffffff;
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: 99px;
   color: var(--text-secondary);
+  transition: all 0.2s ease;
+}
+
+.skill-tag:hover {
+  border-color: var(--text-primary);
+  color: var(--text-primary);
+  background: var(--bg-light);
 }
 
 /* Experience/Projects */
 .item {
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .item:last-child {
@@ -150,27 +193,32 @@ h2 {
 }
 
 .item-title {
+  font-family: var(--sans);
   font-size: 14px;
   font-weight: 600;
   color: var(--text-primary);
 }
 
 .item-date {
-  font-size: 12px;
+  font-family: var(--mono);
+  font-size: 11px;
   color: var(--text-muted);
   font-weight: 500;
 }
 
 .item-subtitle {
-  font-size: 13px;
+  font-family: var(--mono);
+  font-size: 11.5px;
   color: var(--accent);
   font-weight: 500;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
+  letter-spacing: 0.2px;
 }
 
 .item-description {
   font-size: 13px;
   color: var(--text-secondary);
+  line-height: 1.6;
 }
 
 .item-description ul {
@@ -179,92 +227,122 @@ h2 {
 }
 
 .item-description li {
-  margin-bottom: 2px;
+  margin-bottom: 4px;
 }
 
-/* Print Styles */
-@media print {
-  body {
-    background: white;
-  }
-  .page {
-    box-shadow: none;
-    margin: 0;
-    padding: 40px 48px;
-    width: 100%;
-  }
-  .no-print {
-    display: none !important;
-  }
-  a {
-    color: inherit !important;
-  }
-}
-
-/* Navigation Buttons */
-.btn-back {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  background: var(--text-primary);
-  color: white;
-  padding: 10px 20px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 13px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  transition: all 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.btn-back:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-}
-
-.btn-print {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background: var(--accent);
-  color: white;
-  padding: 10px 20px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 13px;
-  cursor: pointer;
-  border: none;
-  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
-  transition: all 0.2s ease;
-  text-align: center;
-  line-height: normal;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.btn-print:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(14, 165, 233, 0.4);
+.item-description li:last-child {
+  margin-bottom: 0;
 }
 
 .resume-links-footer {
-  margin-top: 6px;
+  margin-top: 8px;
+  font-family: var(--sans);
   font-size: 12px;
   color: var(--text-muted);
+}
+
+.resume-links-footer a {
+  border-bottom: 1px solid transparent;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.resume-links-footer a:hover {
+  border-color: var(--accent);
+}
+
+/* Navigation Buttons (Tactile Pill Style) */
+.btn-back,
+.btn-print {
+  position: fixed;
+  top: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  padding: 10px 22px;
+  border-radius: 99px;
+  background: linear-gradient(135deg, #f5f4f0 0%, #dbdad3 100%);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 
+    inset 1px 1px 2px rgba(255, 255, 255, 0.9), 
+    inset -1px -1px 2px rgba(0, 0, 0, 0.15), 
+    0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.2s ease;
+  white-space: nowrap;
+  cursor: pointer;
+  text-decoration: none;
+  z-index: 10;
+}
+
+.btn-back {
+  left: 24px;
+}
+
+.btn-print {
+  right: 24px;
+  background: linear-gradient(135deg, #e8f4d9 0%, #c9dbb5 100%);
+  border-color: rgba(255, 255, 255, 0.8);
+  color: var(--green-fg);
+  box-shadow: 
+    inset 1px 1px 2px rgba(255, 255, 255, 0.9), 
+    inset -1px -1px 2px rgba(0, 0, 0, 0.1), 
+    0 4px 12px rgba(54, 102, 16, 0.12);
+}
+
+.btn-back:hover,
+.btn-print:hover {
+  transform: translateY(-2px);
+}
+
+.btn-back:hover {
+  box-shadow: 
+    inset 1px 1px 2px rgba(255, 255, 255, 0.9), 
+    inset -1px -1px 2px rgba(0, 0, 0, 0.1), 
+    0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.btn-print:hover {
+  box-shadow: 
+    inset 1px 1px 2px rgba(255, 255, 255, 0.9), 
+    inset -1px -1px 2px rgba(0, 0, 0, 0.05), 
+    0 8px 20px rgba(54, 102, 16, 0.2);
+}
+
+.btn-back:active,
+.btn-print:active {
+  transform: translateY(1px);
+}
+
+.btn-back:active {
+  box-shadow: 
+    inset 1px 2px 4px rgba(0, 0, 0, 0.2), 
+    inset -1px -1px 2px rgba(255, 255, 255, 0.6), 
+    0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.btn-print:active {
+  box-shadow: 
+    inset 1px 2px 4px rgba(54, 102, 16, 0.2), 
+    inset -1px -1px 2px rgba(255, 255, 255, 0.6), 
+    0 2px 4px rgba(54, 102, 16, 0.05);
 }
 
 /* ──────────────────────────────────────────
    RESPONSIVE SCREEN STYLES
    ────────────────────────────────────────── */
 @media screen and (max-width: 840px) {
+  body {
+    background: var(--bg-light);
+  }
+
   .page {
     width: 95%;
-    margin: 80px auto 20px auto; /* Add margin at top for absolute buttons */
+    margin: 80px auto 30px auto; /* Margin top to clear fixed buttons */
     padding: 32px 24px;
     min-height: auto;
     box-shadow: none;
@@ -278,15 +356,23 @@ h2 {
 
   .btn-back, 
   .btn-print {
-    position: absolute; /* Reposition absolutely so they don't cover content on scroll */
-    top: 16px;
+    position: absolute;
+    top: 20px;
     padding: 8px 16px;
+  }
+  
+  .btn-back {
+    left: 2.5%;
+  }
+  
+  .btn-print {
+    right: 2.5%;
   }
 }
 
 @media screen and (max-width: 480px) {
   header h1 {
-    font-size: 22px;
+    font-size: 24px;
   }
 
   .contact-row {
@@ -297,5 +383,62 @@ h2 {
 
   .contact-row span {
     display: none; /* Hide bullets on stacked layouts */
+  }
+}
+
+/* ──────────────────────────────────────────
+   PRINT STYLES
+   ────────────────────────────────────────── */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 12px; /* Marginally smaller font for print fit */
+  }
+  
+  .page {
+    box-shadow: none !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    min-height: auto !important;
+    background: #ffffff !important;
+  }
+  
+  .no-print {
+    display: none !important;
+  }
+  
+  a {
+    color: #000000 !important;
+    text-decoration: none !important;
+  }
+  
+  header {
+    border-bottom: 2px solid #000000 !important;
+    margin-bottom: 20px !important;
+    padding-bottom: 16px !important;
+  }
+  
+  h2 {
+    border-bottom: 1px solid #000000 !important;
+    margin-bottom: 8px !important;
+    padding-bottom: 4px !important;
+    font-size: 13px !important;
+  }
+  
+  .skill-tag {
+    background: #ffffff !important;
+    border: 1px solid #000000 !important;
+    color: #000000 !important;
+  }
+  
+  .item {
+    margin-bottom: 12px !important;
+  }
+  
+  .item-subtitle {
+    color: #000000 !important;
   }
 }
