@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://vaibhavfolio.web.app/sitemap.xml
+Sitemap: https://vaibhav-portfolio-930c6.web.app/sitemap.xml
