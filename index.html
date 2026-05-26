@@ -865,21 +865,101 @@
         0 25px 50px rgba(0, 0, 0, 0.35),
         inset 1px 1px 0 rgba(255, 255, 255, 0.1);
     }
-        .glass-card-floater.light-glass {
-      background: rgba(255, 255, 255, 0.55);
-      border: 1px solid rgba(0, 0, 0, 0.06);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+    .glass-card-floater.light-glass {
+      background: rgba(255, 255, 255, 0.45);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 20px;
+      padding: 32px 28px;
       box-shadow: 
-        0 15px 35px rgba(0, 0, 0, 0.04),
-        inset 1px 1px 0 rgba(255, 255, 255, 0.6);
+        0 15px 35px rgba(0, 0, 0, 0.03),
+        inset 1px 1px 0 rgba(255, 255, 255, 0.7);
+      position: relative;
+      overflow: hidden;
+      transform-style: preserve-3d;
+      transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s, background 0.35s;
     }
     .glass-card-floater.light-glass:hover {
-      background: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.75);
       border-color: rgba(0, 0, 0, 0.12);
       box-shadow: 
-        0 25px 50px rgba(0, 0, 0, 0.08),
+        0 25px 50px rgba(0, 0, 0, 0.06),
         inset 1px 1px 0 rgba(255, 255, 255, 0.8);
+    }
+
+    /* 3D Curved Tech Stack Viewport and Wrapper */
+    .tech-carousel-viewport {
+      perspective: 1500px;
+      width: 100%;
+      overflow: visible;
+      padding: 20px 0;
+      display: flex;
+      justify-content: center;
+    }
+    
+    .tech-cylinder-wrapper {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      max-width: var(--max-w);
+      width: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+      will-change: transform;
+    }
+
+    /* Tech Stack Pills */
+    .tech-cylinder-wrapper .pill {
+      font-family: var(--mono);
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--fg-light);
+      padding: 7px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      background: rgba(255, 255, 255, 0.7);
+      transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s, background 0.3s, border-color 0.3s;
+      transform: translateZ(25px);
+      transform-style: preserve-3d;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.01);
+    }
+    
+    .tech-cylinder-wrapper .pill::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--dot-color, #a0aec0);
+      transition: background-color 0.3s;
+    }
+
+    .tech-cylinder-wrapper .pill.fe { --dot-color: #10b981; }
+    .tech-cylinder-wrapper .pill.be { --dot-color: #3b82f6; }
+    .tech-cylinder-wrapper .pill.do { --dot-color: #f59e0b; }
+
+    .tech-cylinder-wrapper .pill:hover {
+      transform: translateZ(45px) scale(1.05);
+      background: #ffffff;
+      border-color: rgba(0, 0, 0, 0.12);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+      color: var(--fg-light);
+    }
+
+    .card-bg-pattern {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: 0.05;
+      transition: transform 0.3s;
+      transform: translateZ(5px);
     }
     .glass-card-floater .project-tag {
       margin-bottom: 8px;
@@ -1199,15 +1279,22 @@
 
       .tech-inner { flex-direction: column; align-items: flex-start; gap: 14px; }
 
-            /* Redesigned 3D Work Grid Responsiveness */
+      /* Redesigned 3D Work Grid & Tech Stack Responsiveness */
       .work-grid-3d {
         grid-template-columns: 1fr;
         gap: 32px;
       }
       .glass-card-3d,
       .glass-card-floater,
-      .hero-stats-3d {
+      .hero-stats-3d,
+      .tech-cylinder-wrapper,
+      .tech-cylinder-wrapper .pill,
+      .card-bg-pattern {
         transform: none !important;
+      }
+      .tech-cylinder-wrapper {
+        grid-template-columns: 1fr !important;
+        gap: 24px !important;
       }
       .glass-card-3d {
         padding: 28px;
@@ -1651,56 +1738,96 @@
     <!-- ═══════════════════════════════════════════
          TECH STACK
          ═══════════════════════════════════════════ -->
-        <section class="tech-stack scroll-reveal" id="stack" aria-label="Technology stack" style="padding: var(--section-py) 0; background: var(--bg-light); border-bottom: 1px solid var(--border-light); position: relative; z-index: 10;">
-      <div class="container">
+    <section class="tech-stack scroll-reveal" id="stack" aria-label="Technology stack" style="padding: var(--section-py) 0; background: var(--bg-light); border-bottom: 1px solid var(--border-light); position: relative; z-index: 10; overflow: visible;">
+      <div class="container" style="overflow: visible;">
         <div class="work-header" style="margin-bottom: 56px; text-align: center;">
           <p class="label">Expertise</p>
           <h2 class="section-heading" style="font-family: var(--serif); font-size: clamp(32px, 5vw, 42px); font-weight: 600; color: var(--fg-light); margin-top: 12px;">Technical Stack</h2>
         </div>
 
-        <div class="tech-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; perspective: 1500px;">
-          <!-- Card 1: Frontend -->
-          <div class="glass-card-floater light-glass scroll-reveal" style="will-change: transform; transform: rotateY(-8deg) rotateX(1deg);">
-            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
-              <h3 style="font-family: var(--serif); font-size: 22px; font-weight: 600; color: var(--fg-light); margin-bottom: 0;">Frontend</h3>
+        <div class="tech-carousel-viewport">
+          <div class="tech-cylinder-wrapper">
+            
+            <!-- Card 1: Frontend -->
+            <div class="glass-card-floater light-glass scroll-reveal" id="tech-frontend" style="will-change: transform; transform: rotateY(8deg) translateZ(-20px); transform-style: preserve-3d; position: relative;">
+              <!-- Background Pattern -->
+              <div class="card-bg-pattern">
+                <svg width="100%" height="100%" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M10 10h180v180H10z" stroke="rgba(16, 185, 129, 0.4)" stroke-width="1"/>
+                  <path d="M10 50h180M10 100h180M10 150h180M50 10v180M100 10v180M150 10v180" stroke="rgba(16, 185, 129, 0.2)" stroke-width="1" stroke-dasharray="2 2"/>
+                  <rect x="25" y="65" width="40" height="25" rx="2" fill="none" stroke="rgba(16, 185, 129, 0.4)" stroke-width="1.5"/>
+                  <rect x="75" y="65" width="100" height="25" rx="2" fill="none" stroke="rgba(16, 185, 129, 0.4)" stroke-width="1.5"/>
+                  <circle cx="150" cy="30" r="8" fill="none" stroke="rgba(16, 185, 129, 0.4)" stroke-width="1.5"/>
+                </svg>
+              </div>
+              <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px; transform: translateZ(40px); transform-style: preserve-3d;">
+                <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background-color: #10b981; box-shadow: 0 0 8px #10b981;"></span>
+                <h3 style="font-family: var(--serif); font-size: 22px; font-weight: 600; color: var(--fg-light); margin-bottom: 0;">Frontend</h3>
+              </div>
+              <div style="display: flex; flex-wrap: wrap; gap: 10px; transform: translateZ(25px); transform-style: preserve-3d;">
+                <span class="pill fe">React.js</span>
+                <span class="pill fe">Next.js</span>
+                <span class="pill fe">TypeScript</span>
+                <span class="pill fe">Tailwind CSS</span>
+              </div>
             </div>
-            <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-              <span class="pill">React.js</span>
-              <span class="pill">Next.js</span>
-              <span class="pill">TypeScript</span>
-              <span class="pill">Tailwind CSS</span>
-            </div>
-          </div>
 
-          <!-- Card 2: Backend & AI -->
-          <div class="glass-card-floater light-glass scroll-reveal" style="will-change: transform; transform: rotateY(0deg) rotateX(2deg);">
-            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
-              <h3 style="font-family: var(--serif); font-size: 22px; font-weight: 600; color: var(--fg-light); margin-bottom: 0;">Backend & AI</h3>
+            <!-- Card 2: Backend & AI -->
+            <div class="glass-card-floater light-glass scroll-reveal" id="tech-backend" style="will-change: transform; transform: rotateY(0deg) translateZ(10px); transform-style: preserve-3d; position: relative;">
+              <!-- Background Pattern -->
+              <div class="card-bg-pattern">
+                <svg width="100%" height="100%" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="40" cy="50" r="4" fill="#3b82f6"/>
+                  <circle cx="160" cy="60" r="5" fill="#3b82f6"/>
+                  <circle cx="100" cy="110" r="6" fill="#3b82f6"/>
+                  <circle cx="60" cy="160" r="4" fill="#3b82f6"/>
+                  <circle cx="140" cy="150" r="4" fill="#3b82f6"/>
+                  <line x1="40" y1="50" x2="100" y2="110" stroke="rgba(59, 130, 246, 0.3)" stroke-width="1.5"/>
+                  <line x1="160" y1="60" x2="100" y2="110" stroke="rgba(59, 130, 246, 0.3)" stroke-width="1.5"/>
+                  <line x1="60" y1="160" x2="100" y2="110" stroke="rgba(59, 130, 246, 0.3)" stroke-width="1.5"/>
+                  <line x1="140" y1="150" x2="100" y2="110" stroke="rgba(59, 130, 246, 0.3)" stroke-width="1.5"/>
+                </svg>
+              </div>
+              <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px; transform: translateZ(40px); transform-style: preserve-3d;">
+                <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background-color: #3b82f6; box-shadow: 0 0 8px #3b82f6;"></span>
+                <h3 style="font-family: var(--serif); font-size: 22px; font-weight: 600; color: var(--fg-light); margin-bottom: 0;">Backend & AI</h3>
+              </div>
+              <div style="display: flex; flex-wrap: wrap; gap: 10px; transform: translateZ(25px); transform-style: preserve-3d;">
+                <span class="pill be">Node.js</span>
+                <span class="pill be">Python</span>
+                <span class="pill be">FastAPI</span>
+                <span class="pill be">PostgreSQL</span>
+                <span class="pill be">Drizzle ORM</span>
+                <span class="pill be">LangChain</span>
+                <span class="pill be">Gemini AI</span>
+              </div>
             </div>
-            <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-              <span class="pill">Node.js</span>
-              <span class="pill">Python</span>
-              <span class="pill">FastAPI</span>
-              <span class="pill">PostgreSQL</span>
-              <span class="pill">Drizzle ORM</span>
-              <span class="pill">LangChain</span>
-              <span class="pill">Gemini AI</span>
-            </div>
-          </div>
 
-          <!-- Card 3: DevOps & Quality -->
-          <div class="glass-card-floater light-glass scroll-reveal" style="will-change: transform; transform: rotateY(8deg) rotateX(1deg);">
-            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
-              <h3 style="font-family: var(--serif); font-size: 22px; font-weight: 600; color: var(--fg-light); margin-bottom: 0;">DevOps & Quality</h3>
+            <!-- Card 3: DevOps & Quality -->
+            <div class="glass-card-floater light-glass scroll-reveal" id="tech-devops" style="will-change: transform; transform: rotateY(-8deg) translateZ(-20px); transform-style: preserve-3d; position: relative;">
+              <!-- Background Pattern -->
+              <div class="card-bg-pattern">
+                <svg width="100%" height="100%" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="100" cy="100" r="80" fill="none" stroke="rgba(245, 158, 11, 0.2)" stroke-width="2"/>
+                  <circle cx="100" cy="100" r="55" fill="none" stroke="rgba(245, 158, 11, 0.3)" stroke-width="1.5" stroke-dasharray="4 4"/>
+                  <circle cx="100" cy="100" r="30" fill="none" stroke="rgba(245, 158, 11, 0.4)" stroke-width="1"/>
+                  <path d="M100 20v160M20 100h160" stroke="rgba(245, 158, 11, 0.2)" stroke-width="1"/>
+                </svg>
+              </div>
+              <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px; transform: translateZ(40px); transform-style: preserve-3d;">
+                <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background-color: #f59e0b; box-shadow: 0 0 8px #f59e0b;"></span>
+                <h3 style="font-family: var(--serif); font-size: 22px; font-weight: 600; color: var(--fg-light); margin-bottom: 0;">DevOps & Quality</h3>
+              </div>
+              <div style="display: flex; flex-wrap: wrap; gap: 10px; transform: translateZ(25px); transform-style: preserve-3d;">
+                <span class="pill do">Docker</span>
+                <span class="pill do">Vitest</span>
+                <span class="pill do">Playwright</span>
+                <span class="pill do">Firebase</span>
+                <span class="pill do">Vercel</span>
+                <span class="pill do">Sentry</span>
+              </div>
             </div>
-            <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-              <span class="pill">Docker</span>
-              <span class="pill">Vitest</span>
-              <span class="pill">Playwright</span>
-              <span class="pill">Firebase</span>
-              <span class="pill">Vercel</span>
-              <span class="pill">Sentry</span>
-            </div>
+
           </div>
         </div>
       </div>
@@ -1864,7 +1991,7 @@
 
         <div class="engineering-standard-callout scroll-reveal" style="text-align: center; margin-bottom: 40px;">
           <p style="font-family: var(--mono); font-size: 12px; letter-spacing: 0.04em; color: var(--fg-muted-light); line-height: 1.8; max-width: 640px; margin: 0 auto; padding: 16px 24px; background: rgba(0,0,0,0.02); border: 1px solid var(--border-light); border-radius: 12px;">
-            Every project follows a documented engineering standard — automated testing, security review, surgical code changes, and goal-driven execution. See <a href="https://github.com/Vaibhavtiwari-dev/Vaibhav-Portfolio/blob/main/GEMINI.md" target="_blank" style="text-decoration: underline; color: inherit;">GEMINI.md</a>.
+            Every project follows a documented engineering standard — automated testing, security review, surgical code changes, and goal-driven execution. See <a href="GEMINI.pdf" target="_blank" style="text-decoration: underline; color: inherit;">GEMINI.md</a>.
           </p>
         </div>
 
@@ -2314,10 +2441,12 @@
       return '';
     };
 
-        cards3d.forEach(card => {
+    cards3d.forEach(card => {
       const restTransform = getRestTransform(card);
       
       card.addEventListener('mousemove', (e) => {
+        if (window.innerWidth <= 768) return;
+        
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left; // x coordinate inside the card
         const y = e.clientY - rect.top;  // y coordinate inside the card
@@ -2333,13 +2462,46 @@
         const tiltX = (percentY * maxTilt).toFixed(2); // rotation around X-axis (depends on vertical cursor pos)
         const tiltY = (percentX * -maxTilt).toFixed(2); // rotation around Y-axis (depends on horizontal cursor pos)
         
-        card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.02, 1.02, 1.02)`;
+        if (restTransform && (card.id === 'tech-frontend' || card.id === 'tech-backend' || card.id === 'tech-devops')) {
+          card.style.transform = `perspective(1000px) ${restTransform} rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.02, 1.02, 1.02)`;
+        } else {
+          card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.02, 1.02, 1.02)`;
+        }
       });
       
       card.addEventListener('mouseleave', () => {
         card.style.transform = restTransform;
       });
-    }););
+    });
+
+    /* ──────────────────────────────────────────
+       3D ROTATING CYLINDER VIEWPORT EFFECT (TECH STACK)
+       ────────────────────────────────────────── */
+    const techViewport = document.querySelector('.tech-carousel-viewport');
+    const techWrapper = document.querySelector('.tech-cylinder-wrapper');
+    if (techViewport && techWrapper) {
+      techViewport.addEventListener('mousemove', (e) => {
+        if (window.innerWidth <= 768) return;
+        
+        const rect = techViewport.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        const percentX = (x - centerX) / centerX;
+        const percentY = (y - centerY) / centerY;
+        
+        const angleY = (percentX * -12).toFixed(2);
+        const angleX = (percentY * 6).toFixed(2);
+        
+        techWrapper.style.transform = `rotateY(${angleY}deg) rotateX(${angleX}deg)`;
+      });
+      
+      techViewport.addEventListener('mouseleave', () => {
+        techWrapper.style.transform = 'rotateY(0deg) rotateX(0deg)';
+      });
     }
   </script>
 </body>
