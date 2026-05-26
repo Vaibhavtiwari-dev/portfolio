@@ -41,7 +41,7 @@ Personal portfolio site built as a single-page editorial design. Clean typograph
 ## Running Locally
 
 ```bash
-git clone https://github.com/vaibhav09012007-design/Vaibhav-Portfolio.git
+git clone https://github.com/Vaibhavtiwari-dev/Vaibhav-Portfolio.git
 cd Vaibhav-Portfolio
 npx serve .
 ```
@@ -49,6 +49,6 @@ npx serve .
 ## Contact
 
 - [Portfolio](https://vaibhav-portfolio-930c6.web.app)
-- [GitHub](https://github.com/vaibhav09012007-design)
+- [GitHub](https://github.com/Vaibhavtiwari-dev)
 - [LinkedIn](https://linkedin.com/in/vaibhav-tiwari)
 - [Email](mailto:vaibhav09012007@gmail.com)
