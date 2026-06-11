@@ -80,8 +80,8 @@ Vaibhav-Portfolio/
 ## Running Locally
 
 ```bash
-git clone https://github.com/Vaibhavtiwari-dev/Vaibhav-Portfolio.git
-cd Vaibhav-Portfolio
+git clone https://github.com/Vaibhavtiwari-dev/portfolio.git
+cd portfolio
 npx serve .
 ```
 
@@ -113,7 +113,6 @@ Hosting configuration lives in [`firebase.json`](firebase.json) — redirects, c
 
 [![Portfolio](https://img.shields.io/badge/Portfolio-vaibhav--portfolio-000?style=flat-square&logo=firebase&logoColor=FFCA28)](https://vaibhav-portfolio-930c6.web.app)
 [![GitHub](https://img.shields.io/badge/GitHub-Vaibhavtiwari--dev-000?style=flat-square&logo=github)](https://github.com/Vaibhavtiwari-dev)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-vaibhav--tiwari-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://linkedin.com/in/vaibhav-tiwari)
 [![X (Twitter)](https://img.shields.io/badge/X-@AsterismVaibhav-000?style=flat-square&logo=x&logoColor=white)](https://x.com/AsterismVaibhav)
 [![Email](https://img.shields.io/badge/Email-vaibhav09012007-EA4335?style=flat-square&logo=gmail&logoColor=white)](mailto:vaibhav09012007@gmail.com)
 
